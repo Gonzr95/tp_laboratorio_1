@@ -37,8 +37,6 @@ int main(void)
 	float aerolineasPrecioUnitario;
 	float diferencia;
 	int flagVueloCargado = 0;
-	float precioVueloCaro;
-	float precioVueloBarato;
 	int flagVuelosCalculados = 0;
 
 
@@ -84,12 +82,13 @@ int main(void)
 				case 2:
 					if(flagVueloCargado)
 					{
-						//---------VALOR UNITARIO--------
+						//---------CALCULO DE PRECIOS--------
 						calcularCostos(latamPrecio, kilometros, BTC_Value, &latamPrecioDebito, &latamPrecioCredito, &latamPrecioBTC, &latamPrecioUnitario, precioMIN, precioMAX);
 						calcularCostos(aerolineasPrecio, kilometros, BTC_Value, &aerolineasPrecioDebito, &aerolineasPrecioCredito, &aerolineasPrecioBTC, &aerolineasPrecioUnitario,precioMIN, precioMAX);
 
 						//---------MOSTAR PRECIO UNITARIO-----
 						mostrarPrecioV2(latamPrecioUnitario, aerolineasPrecioUnitario, "Precios unitarios\n");
+
 
 						//---------DIFERENCIAS DE PRECIO-------
 						/*
@@ -99,6 +98,7 @@ int main(void)
 							printf("La diferencia de precio es de: $%.2f\n\n",diferencia);
 						}
 						*/
+
 						calcularDiferenciaV2(aerolineasPrecioDebito, latamPrecioDebito, "La diferencia de precio es de: ", "No hay diferencia", &diferencia);
 						flagVuelosCalculados = 1;
 					}
