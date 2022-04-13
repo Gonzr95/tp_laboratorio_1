@@ -9,7 +9,7 @@
 #define TP1LIBRARY_H_
 #include <stdio.h>
 #include <stdlib.h>
-
+#include "utn.h"
 
 
 int calcularCostos(  float precio, int kilometros, float precioBitcoin, float* pPrecioDebito, float* pPrecioCredito

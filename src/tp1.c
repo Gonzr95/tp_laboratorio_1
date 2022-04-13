@@ -8,6 +8,7 @@
 
 #include "tp1.h"
 
+
 /**
  * \brief: Calcula TODOS los costos DE UN SOLO VUELO
  * \param: precio: valor FLOAT de precio de vuelo
@@ -51,7 +52,8 @@ int calcularPrecioDebito(float precio, float precioMinimo, float precioMaximo, f
 
 	if(precio <= precioMaximo && precio >= precioMinimo && precioCalculado != NULL)
 	{
-		*precioCalculado = precio - (precio * 0.10);
+		calcularDescuento(precio, precioCalculado, 10);
+		//*precioCalculado = precio - (precio * 0.10);
 		retorno = 0; //EXITO
 	}
 	return retorno;
@@ -70,7 +72,7 @@ int calcularPrecioCredito(float precio, float precioMinimo, float precioMaximo, 
 	int retorno = -1; //ERROR
 	if(precio >= precioMinimo && precio <= precioMaximo && precioCalculado != NULL)
 	{
-		*precioCalculado = precio + (precio * 0.25);
+		calcularRecarga(precio, precioCalculado, 25);
 		retorno = 0; //EXITO
 	}
 	return retorno;

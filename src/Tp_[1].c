@@ -9,7 +9,7 @@
  */
 
 
-#include "utn.h"
+
 #include "tp1.h"
 #define kmMIN 100 //hardcodeo el vuelo mas corto ofrecido por las aerolineas
 #define kmMAX 19483 //vuelo comercial mas largo en el mundo
@@ -39,6 +39,7 @@ int main(void)
 	int flagVueloCargado = 0;
 	float precioVueloCaro;
 	float precioVueloBarato;
+	int flagVuelosCalculados = 0;
 
 
 	do
@@ -83,53 +84,23 @@ int main(void)
 				case 2:
 					if(flagVueloCargado)
 					{
-						calcularPrecioUnitario(aerolineasPrecio, &aerolineasPrecioUnitario, precioMIN, precioMAX, kilometros);
-						calcularPrecioUnitario(latamPrecio, &latamPrecioUnitario, precioMIN, precioMAX, kilometros);
+						//---------VALOR UNITARIO--------
+						calcularCostos(latamPrecio, kilometros, BTC_Value, &latamPrecioDebito, &latamPrecioCredito, &latamPrecioBTC, &latamPrecioUnitario, precioMIN, precioMAX);
+						calcularCostos(aerolineasPrecio, kilometros, BTC_Value, &aerolineasPrecioDebito, &aerolineasPrecioCredito, &aerolineasPrecioBTC, &aerolineasPrecioUnitario,precioMIN, precioMAX);
 
-						if(!utn_getINT(&opcion, "--Como desea abonar?--\n"
-								"1)Tarjeta de debito\n"
-								"2)Tarjeta de credito\n"
-								"3)Bitcoin\n"
-								,"ERROR, revise las opciones disponibles\n"
-								, 1, 3, 2))
+						//---------MOSTAR PRECIO UNITARIO-----
+						mostrarPrecioV2(latamPrecioUnitario, aerolineasPrecioUnitario, "Precios unitarios\n");
+
+						//---------DIFERENCIAS DE PRECIO-------
+						/*
+						if(calcularMayor(aerolineasPrecio, latamPrecio, &precioVueloCaro, &precioVueloBarato, "No hay diferencia de precios\n\n") == 0)
 						{
-							switch(opcion)
-							{
-							//----DEBITO----
-							case 1:
-								calcularPrecioDebito(aerolineasPrecio, precioMIN, precioMAX, &aerolineasPrecioDebito);
-								calcularPrecioDebito(latamPrecio, precioMIN, precioMAX, &latamPrecioDebito);
-								mostrarPrecioV2(latamPrecioDebito, aerolineasPrecioDebito, "----Valores abonando en debito----");
-								break;
-							//----CREDITO----
-							case 2:
-								calcularPrecioCredito(aerolineasPrecio, precioMIN, precioMAX, &aerolineasPrecioCredito);
-								calcularPrecioCredito(latamPrecio, precioMIN, precioMAX, &latamPrecioCredito);
-								mostrarPrecioV2(latamPrecioCredito, aerolineasPrecioCredito, "----Valores abonando en credito----");
-								break;
-							//----BITCOIN----
-							case 3:
-								calcularPrecioBitcoin(aerolineasPrecio, precioMIN, precioMAX, &aerolineasPrecioBTC, BTC_Value);
-								calcularPrecioBitcoin(latamPrecio, precioMIN, precioMAX, &latamPrecioBTC, BTC_Value);
-								mostrarPrecioV3(latamPrecioBTC, aerolineasPrecioBTC, "----Valores abonando en bitcoin----");
-								break;
-							}
-							mostrarPrecioV2(latamPrecioUnitario, aerolineasPrecioUnitario, "----Valores unitarios----");
-							if(calcularMayor(aerolineasPrecio, latamPrecio, &precioVueloCaro, &precioVueloBarato, "No hay diferencia de precios\n\n") == 0)
-							{
-								calcularDiferencia(precioVueloCaro, precioVueloBarato, &diferencia);
-								printf("La diferencia de precio es de: $%.2f\n\n",diferencia);
-							}
-							else
-							{
-								printf("No hay diferencia entre los vuelos\n\n");
-							}
-							break;
+							calcularDiferencia(precioVueloCaro, precioVueloBarato, &diferencia);
+							printf("La diferencia de precio es de: $%.2f\n\n",diferencia);
 						}
-						else
-						{
-							printf("Te equivocaste mucho vuelvo al menu");
-						}
+						*/
+						calcularDiferenciaV2(aerolineasPrecioDebito, latamPrecioDebito, "La diferencia de precio es de: ", "No hay diferencia", &diferencia);
+						flagVuelosCalculados = 1;
 					}
 					else
 					{
@@ -142,18 +113,14 @@ int main(void)
 				case 3:
 					if(flagVueloCargado)
 					{
-						if(calcularCostos(latamPrecio, kilometros, BTC_Value, &latamPrecioDebito, &latamPrecioCredito, &latamPrecioBTC, &latamPrecioUnitario, precioMIN, precioMAX) == 0)
+						if(flagVuelosCalculados)
 						{
-							if(calcularCostos(aerolineasPrecio, kilometros, BTC_Value, &aerolineasPrecioDebito, &aerolineasPrecioCredito, &aerolineasPrecioBTC, &aerolineasPrecioUnitario, precioMIN, precioMAX) == 0)
-							{
-								mostrarPrecioV4(aerolineasPrecio, aerolineasPrecioDebito, aerolineasPrecioCredito, aerolineasPrecioBTC, aerolineasPrecioUnitario, latamPrecio, latamPrecioDebito, latamPrecioCredito, latamPrecioBTC, latamPrecioUnitario, kilometros);
-								if(calcularMayor(aerolineasPrecio, latamPrecio, &precioVueloCaro, &precioVueloBarato, "No hay diferencia de precios\n\n") == 0)
-								{
-									calcularDiferencia(precioVueloCaro, precioVueloBarato, &diferencia);
-									printf("La diferencia de precio es de: $%.2f\n\n",diferencia);
-									break;
-								}
-							}
+							mostrarPrecioV4(aerolineasPrecio, aerolineasPrecioDebito, aerolineasPrecioCredito, aerolineasPrecioBTC, aerolineasPrecioUnitario, latamPrecio, latamPrecioDebito, latamPrecioCredito, latamPrecioBTC, latamPrecioUnitario, kilometros);
+							calcularDiferenciaV2(aerolineasPrecioDebito, latamPrecioDebito, "La diferencia de precio es de: ", "No hay diferencia", &diferencia);
+						}
+						else
+						{
+							printf("Error, no calculaste los precios, vuelvo al menu\n");
 						}
 					}
 					else
@@ -169,15 +136,19 @@ int main(void)
 					kilometros = 7090;
 					aerolineasPrecio = 1335000.66;
 					latamPrecio = 1350000.76;
+
+
 					//----CALCULO DE IMPORTES----
 					calcularCostos(latamPrecio, kilometros, BTC_Value, &latamPrecioDebito, &latamPrecioCredito, &latamPrecioBTC, &latamPrecioUnitario, precioMIN, precioMAX);
 					calcularCostos(aerolineasPrecio, kilometros, BTC_Value, &aerolineasPrecioDebito, &aerolineasPrecioCredito, &aerolineasPrecioBTC, &aerolineasPrecioUnitario, precioMIN, precioMAX);
+
+
+					//----INFORME DE RESULTADOS----
 					mostrarPrecioV4(aerolineasPrecio, aerolineasPrecioDebito, aerolineasPrecioCredito, aerolineasPrecioBTC, aerolineasPrecioUnitario, latamPrecio, latamPrecioDebito, latamPrecioCredito, latamPrecioBTC, latamPrecioUnitario, kilometros);
-					if(calcularMayor(aerolineasPrecio, latamPrecio, &precioVueloCaro, &precioVueloBarato, "No hay diferencia de precios\n\n") == 0)
-					{
-						calcularDiferencia(precioVueloCaro, precioVueloBarato, &diferencia);
-						printf("La diferencia de precio es de: $%.2f\n\n",diferencia);
-					}
+
+
+					//---------DIFERENCIAS DE PRECIO-------
+					calcularDiferenciaV2(aerolineasPrecioDebito, latamPrecioDebito, "La diferencia de precio es de: ", "No hay diferencia", &diferencia);
 					break;
 			}//------SWITCH------
 		}

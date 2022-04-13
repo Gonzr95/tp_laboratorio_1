@@ -16,6 +16,8 @@ int utn_getINT(int* pResultado, char* mensaje, char* mensajeError, int min, int 
 int utn_getFLOAT(float* pResultado, char* mensaje, char* mensajeError, int min, int max, int intentos);
 int calcularMayor(float num1, float num2, float* pNumMayor, float* pNumMenor, char* mensaje);
 void calcularDiferencia(float numMayor, float numMenor, float* pDiferencia);
-
+int calcularDescuento(float precio, float* precioCalculado, float descuento);
+int calcularRecarga(float precio, float* precioCalculado, float recarga);
+int calcularDiferenciaV2(float num1, float num2, char* mensaje, char*mensajeError, float* pDiferencia);
 
 #endif /* UTN_H_ */
